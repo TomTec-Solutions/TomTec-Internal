@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="cname">Client Name:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="cname" name="client_name" placeholder="{{ Client.name }}" value="{{ Client.name }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="cperson">Contact Person:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="cperson" name="contact_person" placeholder="{{ Client.contact }}" value="{{ Client.contact }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="caddress">Address:</label>
+    <div class="col-sm-8">
+      <textarea class="form-control" id="caddress" placeholder="{{ Client.address }}" name="client_address" rows="3">{{ Client.address }}</textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="cphone1">Phone (primary):</label>
+    <div class="col-sm-8">
+      <input type="tel" class="form-control" id="cphone1" name="client_phone_primary" placeholder="{{ Client.phone_primary }}" value="{{ Client.phone_primary }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="cphone2">Phone (secondary):</label>
+    <div class="col-sm-8">
+      <input type="tel" class="form-control" id="cphone2" name="client_phone_secondary" placeholder="{{ Client.phone_secondary }}" value="{{ Client.phone_secondary }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="cemail">Email:</label>
+    <div class="col-sm-8">
+      <input type="email" class="form-control" id="cemail" name="client_email" placeholder="{{ Client.email }}" value="{{ Client.email }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="cinfo">Notes:</label>
+    <div class="col-sm-8">
+      <textarea class="form-control" id="cinfo" placeholder="{{ Client.info }}" name="client_info" rows="10">{{ Client.info }}</textarea>
+    </div>
+  </div>
+</div>
+<input type="hidden" name="client_id" value="{{ Client.id }}">
+<p style="display: none;" id="client_name">{{ Client.name }}</p>

@@ -1,0 +1,68 @@
+/* Created by Thomas 'Purger' Jones (tjone270) on 25/07/2016 */
+/* Global CSS stylesheet file */
+
+
+/* BEGIN font definitions */
+@font-face { /* FONT: Chicago */
+  font-family: chicago;
+  src: url(/assets/pageassets/typefaces/chicago.woff);
+}
+@font-face { /* FONT: Droid Sans (Mono) */
+  font-family: droidsans-mono;
+  src: url(/assets/pageassets/typefaces/droidsans-mono.woff);
+}
+@font-face { /* FONT: Handel Gothic */
+  font-family: handelgothic;
+  src: url(/assets/pageassets/typefaces/handelgothic.woff);
+}
+@font-face { /* FONT: Neuropol */
+  font-family: neuropol;
+  src: url(/assets/pageassets/typefaces/neuropol.woff);
+}
+@font-face { /* FONT: Noto Sans */
+  font-family: notosans;
+  src: url(/assets/pageassets/typefaces/notosans.woff);
+}
+/* END font definitions */
+
+/* BEGIN font shortcuts */
+.chicago        { font-family: chicago;        }
+.droidsans-mono { font-family: droidsans-mono; }
+.handelgothic   { font-family: handelgothic;   }
+.neuropol       { font-family: neuropol;       }
+.notosans       { font-family: notosans;       }
+/* END font shortcuts */
+
+/* BEGIN black-theme
+body {
+  background-color: #353839;
+  color: white;
+}
+
+tbody {
+  color: black;
+  background-color: white;
+}
+
+.jumbotron, .panel, .black {
+  color: black;
+}
+
+.white {
+  color: white;
+}
+ END black-theme */
+
+/* BEGIN alignment shortcuts */
+.centered {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.inline {
+  display: inline-block;
+}
+/* END alignment shortcuts */

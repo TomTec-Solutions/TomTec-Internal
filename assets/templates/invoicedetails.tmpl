@@ -1,0 +1,36 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <td>Invoice ID:</td>
+      <td><strong>{{ Invoice.id }}</strong></td>
+    </tr>
+    <tr>
+      <td>Client Name:</td>
+      <td><strong>{{ Invoice.ClientData.name }}</strong></td>
+    </tr>
+    <tr>
+      <td>Client Contact:</td>
+      <td><strong>{{ Invoice.ClientData.contact }}</strong></td>
+    </tr>
+    <tr>
+      <td>Total Price:</td>
+      <td><strong>${{ Invoice.total_price }}</strong></td>
+    </tr>
+    <tr>
+      <td>State:</td>
+      <td><strong>{{ Invoice.state }}</strong></td>
+    </tr>
+    <tr>
+      <td>Issue Date:</td>
+      <td><strong>{{ Invoice.issue_date_humanreadable }}</strong></td>
+    </tr>
+    <tr>
+      <td>Due Date:</td>
+      <td><strong>{{ Invoice.due_date_humanreadable }}</strong></td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td><strong>{{ Invoice.work_description_br|raw }}</strong></td>
+    </tr>
+  </tbody>
+</table>

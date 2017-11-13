@@ -1,0 +1,59 @@
+<h2>New Invoice</h2>
+<form class="form-horizontal" method="post">
+  <div class="panel panel-default">
+    <div class="panel-heading">Invoice Specifics</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label class="col-md-1 control-label" for="select_client">Client:</label>
+        <div class="col-md-4">
+          <select required name="selected_client" class="form-control" id="select_client">
+            <option selected disabled>Select Client</option>
+            {% for Client in ClientData|sort %}
+              <option value="{{ Client.id }}">{{ Client.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <label class="col-md-1 control-label" for="technician">Technician:</label>
+        <div class="col-md-2">
+          <input type="text" id="technician" name="technician" maxlength="16" required value="{{ UserData.fullname }}" class="form-control">
+        </div>
+        <label class="col-md-1 control-label" for="issue_date">Date:</label>
+        <div class="col-md-2">
+          <input type="date" id="issue_date" name="issue_date" required value="{{ "now"|date("Y-m-d") }}" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label" for="price">Total Price <a id="tooltip-1" href="#" data-toggle="tooltip" title="Hourly rate is $60 per hour.">?</a>:</label>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="number" step="0.01" min="0" id="price" name="price" required class="form-control">
+          </div>
+        </div>
+        <label class="col-md-2 control-label" for="technician">Invoice ID:</label>
+        <div class="col-md-1">
+          <p class="form-control-static">#{{ new_invoice_id }}</p>
+        </div>
+        <label class="col-md-2 control-label" for="due_date">Due Date:</label>
+        <div class="col-md-2">
+          <input type="date" id="due_date" name="due_date" required value="{{ SevenDaysFromNow }}" class="form-control">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Description of Work Performed</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <div class="col-md-12">
+          <textarea style="min-width: 100%" required rows="24" name="work_description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="invoice_id" required value="{{ new_invoice_id }}">
+  <button class="col-md-offset-11 col-md-1 btn btn-sm btn-primary" type="submit">Add Invoice</button>
+</form>
+<script>
+  $("#tooltip-1").tooltip();
+</script>

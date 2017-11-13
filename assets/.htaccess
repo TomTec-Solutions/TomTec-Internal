@@ -1,0 +1,3 @@
+# prevent browsing of the assets/
+
+Options -Indexes 

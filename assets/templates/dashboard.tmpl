@@ -1,0 +1,138 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2 class="panel-title">Dashboard</h2>
+  </div>
+  <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title pull-left">Notepad</h3>
+        <button onclick="updateNotepad()" class="btn btn-xs btn-default pull-right">Reload Notepad</button>
+        <div class="clearfix"></div>
+      </div>
+      <div class="panel-body">
+        <textarea autofocus style="overflow: scroll; resize: none; width: 100%;" onchange="setNotepad()" onkeyup="setNotepad()" id="notepad" name="notepad" rows="10">{{ Notepad }}</textarea>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Reports</h3>
+      </div>
+      <div class="panel-body">
+        <p style="text-align: center;">
+        <h3>Welcome, <strong>{{ FirstName }}</strong>.</h3></p><br/>
+        <br/>
+        {% for year, Earnings in AllEarnings %}
+          <table class="table table-condensed table-bordered" style="table-layout: fixed;">
+            <thead>
+            <h4>Earnings for {{ year }}</h4>
+            <tr>
+              {% for month in Months %}
+                {% if year == "now"|date("Y") and loop.index == "now"|date("n") %}
+                  <th>
+                {% else %}
+                  <th style="color: grey;">
+                {% endif %}
+                {{ month }}
+                </th>
+              {% endfor %}
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <td>Total</td>
+              <td><strong>${{ Earnings.total }}</strong></td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr style="color: white;">
+              {% for earnings in Earnings %}
+                {% if not loop.last %}
+                  {% if earnings == 0 %}
+                    <td style="background-color: #CC0000;">
+                  {% elseif year == "now"|date("Y") and loop.index == "now"|date("n") %}
+                    <td style="background-color: #CCCC00;">
+                  {% else %}
+                    <td style="background-color: #00CC00;">
+                  {% endif %}
+                  ${{ earnings }}
+                  </td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+            </tbody>
+          </table>
+        {% endfor %}
+        <br/>
+        <table class="table table-condensed table-bordered" style="table-layout: fixed;">
+          <thead>
+          <h4>Invoice Statistics</h4>
+          <tr>
+            <th>Awaiting Payment</th>
+            <th>Past Due</th>
+            <th>Overdue</th>
+            <th>Paid</th>
+          </tr>
+          </thead>
+          <tfoot>
+          <tr>
+            <td>Total Invoices</td>
+            <td><strong>{{ InvoicesCount }}</strong></td>
+            <td>Total Clients</td>
+            <td><strong>{{ ClientsCount }}</strong></td>
+          </tr>
+          <tr>
+            <td>Total Owed</td>
+            <td><strong>${{ TotalOwed }}</strong></td>
+          </tr>
+          <tr>
+            <td>Total Earnings</td>
+            <td><strong>${{ TotalEarnings }}</strong></td>
+          </tr>
+          </tfoot>
+          <tbody>
+          <tr style="color: white;">
+            <td style="background-color: #CCCC00">{{ StatesCount["Awaiting Payment"] }}</td>
+            <td style="background: linear-gradient(to right, #CCCC00, #CC0000);">{{ PastDue }}</td>
+            <td style="background-color: #CC0000">{{ StatesCount["Overdue"] }}</td>
+            <td style="background-color: #00CC00">{{ StatesCount["Paid"] }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p style="text-align: center;">SMS Credits: <strong>{{ SmsCredits }}</strong></p>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    updateNotepad();
+  });
+
+  $("body").bind("beforeunload", function() {
+    setNotepad();
+  });
+  
+  function updateNotepad() {
+    $.get("{{ webPath }}/assets/php/ajax/notepad.php", function(data, status) {
+      if (status != "success") {
+        alert("Issue with updateNotepad(): " + success);
+      } else {
+        $("#notepad").val(data);
+      }
+    });
+  }
+
+  function setNotepad() {
+    var notepadElementValue = $("#notepad").val();
+    $.post("{{ webPath }}/assets/php/ajax/notepad.php",
+      {
+        notepad: notepadElementValue
+      },
+      function (data, status) {
+        if (status != "success") {
+          alert("Issue with setNotepad(): " + success);
+        }
+      });
+  }
+</script>

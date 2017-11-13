@@ -1,0 +1,192 @@
+<h2>Invoice List</h2>
+
+<style>
+  {% if isMobile %}
+  a:link.action, a:visited.action {
+    color: grey;
+    font-size: 250%;
+  }
+  
+  .table-item {
+    width: auto;
+  }
+  
+  {% else %}
+  a:link.action, a:visited.action {
+    color: white;
+  }
+  
+  .table-item {
+    width: 85px;
+  }
+  
+  {% endif %}
+  a:hover.action, a:active.action {
+    color: lightblue;
+  }
+</style>
+
+<div class="modal fade" id="invoicemodaldetails" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">View Details</h3>
+      </div>
+      <div class="modal-body">
+        <div id="invoicedetails-ajaxdestination">
+          <div style="text-align: center;">
+            <img src="{{ webPath }}/assets/pageassets/images/loading.gif" alt="Loading information..."></img>
+            <p style="font-size: 18px;">Loading details, please wait...</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="invoicemodaledit" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Edit Invoice</h3>
+      </div>
+      <form class="form-horizontal" method="post">
+        <div class="modal-body">
+          <div id="invoiceedit-ajaxdestination">
+            <div style="text-align: center;">
+              <img src="{{ webPath }}/assets/pageassets/images/loading.gif" alt="Loading information..."></img>
+              <p style="font-size: 18px;">Loading form, please wait...</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="float:left; line-height: 34px;">ID: <strong id="invoiceedit-idbox">Loading...</strong></div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Update Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="tablecontainer">
+  <table id="invoicelist" class="table table-striped table-bordered">
+    <thead>
+    <tr>
+      <td>Invoice ID</td>
+      <td>Client</td>
+      <td>Technician</td>
+      <td>Total Price</td>
+      <td>State</td>
+      <td>Issue Date</td>
+      <td>Due Date</td>
+      <td>Action</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for Invoice in Invoices %}
+      {% if Invoice.pastdue and Invoice.state != "Paid" %}
+        <tr style="color: white; background-color: #CC0000;"> <!-- red -->
+      {% else %}
+        {% if Invoice.state == "Awaiting Payment" %}
+          <tr style="color: white; background-color: #CCCC00;"> <!-- orange -->
+        {% elseif Invoice.state == "Paid" %}
+          <tr style="color: white; background-color: #00CC00;"> <!-- green -->
+        {% elseif Invoice.state == "Overdue" %}
+          <tr style="color: white; background-color: #CC0000;"> <!-- red -->
+        {% endif %}
+      {% endif %}
+      <td>{{ Invoice.id }}</td>
+      <td>{{ Invoice.ClientData.name }}</td>
+      <td>{{ Invoice.technician }}</td>
+      <td>${{ Invoice.total_price }}</td>
+      <td>{{ Invoice.state }}</td>
+      <td>{{ Invoice.issue_date_humanreadable }}</td>
+      <td>{{ Invoice.due_date_humanreadable }}</td>
+      <td>
+        <div class="table-item">
+          <a class="action" href="#"><span title="Details" data-toggle="modal" data-target="#invoicemodaldetails"
+                                           onclick="setInvoiceDetails({{ Invoice.id }});"
+                                           class="glyphicon glyphicon-list-alt"> </span></a>
+          <a class="action" href="#"><span title="Edit" data-toggle="modal" data-target="#invoicemodaledit"
+                                           onclick="setInvoiceEditForm({{ Invoice.id }});"
+                                           class="glyphicon glyphicon-pencil"> </span></a>
+          <a class="action" title="Download PDF" href="?download_invoice={{ Invoice.id }}"><i class="fa fa-file-pdf-o"
+                                                                                              aria-hidden="true"></i></a>
+          <a class="action" title="Email PDF to Client" href="?email_invoice={{ Invoice.id }}"><i
+              class="fa fa-envelope-o" aria-hidden="true"></i></a>
+          <a class="action" title="Send SMS Update to Client" href="?sms_invoice={{ Invoice.id }}"><i
+              class="fa fa-comment" aria-hidden="true"></i></a>
+        </div>
+      </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    $("#invoicelist").DataTable({
+      paging: true,
+      autoWidth: false,
+      lengthChange: false,
+      lengthMenu: [15],
+      language: {
+        zeroRecords: "No matching invoices found.",
+        info: "Showing _START_ to _END_ of _TOTAL_ invoices.",
+        infoEmpty: "Showing 0 to 0 of 0 invoices.",
+        infoFiltered: "(filtered from _MAX_ total invoices)"
+      },
+      responsive: true,
+      searching: true,
+      info: true,
+      order: [[0, "desc"]],
+      aoColumnDefs: [
+        {
+          bSortable: false,
+          aTargets: [7]
+        }
+      ]
+    });
+  });
+  
+  function setInvoiceDetails(id) {
+    $.post("{{ webPath }}/assets/php/ajax/invoice.php",
+      {
+        type: "details",
+        invoice_id: id
+      },
+      function (data, status) {
+        if (status == "success") {
+          $("#invoicedetails-ajaxdestination").html(data);
+        } else {
+          alert(status);
+        }
+      });
+  }
+  
+  function setInvoiceEditForm(id) {
+    $.post("{{ webPath }}/assets/php/ajax/invoice.php",
+      {
+        type: "edit",
+        invoice_id: id
+      },
+      function (data, status) {
+        if (status == "success") {
+          $("#invoiceedit-ajaxdestination").html(data);
+          
+          // set the invoice id in the bottom left of the modal
+          $("#invoiceedit-idbox").text(id);
+        } else {
+          alert(status);
+        }
+      });
+  }
+</script>

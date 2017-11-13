@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "header.tmpl" %}
+  </head>
+  <body>
+    {% include "navbar.tmpl" %}
+    <div class="container">
+      {% if alert %}
+        <div class="alert alert-{{ alert.type }}">
+          <strong>{{ alert.text|raw }}</strong>
+        </div>
+      {% endif %}
+      {% include templateName %}
+    </div>
+    {% include "footer.tmpl" %}
+  </body>
+</html>

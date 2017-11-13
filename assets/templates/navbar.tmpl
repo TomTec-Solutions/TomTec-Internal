@@ -1,0 +1,52 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <img class="navbar-brand" src="{{ webPath }}/assets/pageassets/images/tomtecsolutions.png">
+      <a class="navbar-brand" href="{{ webPath }}/dashboard"> {{ siteName }}</a>
+    </div>
+    <ul class="nav navbar-nav">
+      {% if isLoggedIn %}
+        {% for link, name in pageNames %}
+          {% if name is iterable %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ name[0] }} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+              {% for link, name in name %}
+                {% if not loop.first %}
+                  {% if link == "seperator" %}
+                    <li role="separator" class="divider"></li>
+                  {% else %}
+                    <li><a href="{{ webPath }}/{{ link }}">{{ name|raw }}</a></li>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+              </ul>
+            </li>
+          {% else %}
+            {% if link == fileName %}
+              <li class="active"><a href="{{ webPath }}/{{ link }}">{{ name|raw }}</a></li>
+            {% else %}
+              <li><a href="{{ webPath }}/{{ link }}">{{ name|raw }}</a></li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <li class="active"><a href="{{ webPath }}/authenticate">Authenticate</a></li>
+      {% endif %}
+    </ul>
+    {% if isLoggedIn %}
+      <ul class="nav navbar-nav navbar-right">
+        <li><p class="navbar-text">Signed in as {{ UserData.fullname }}</p></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="userlist"><i class="fa fa-users" aria-hidden="true"></i> User List</a></li>
+            <li><a href="userreset"><i class="fa fa-key" aria-hidden="true"></i> Password Reset</a></li>
+            <li><a href="useradd"><i class="fa fa-plus" aria-hidden="true"></i> Add User</a></li>
+          </ul>
+        </li>
+        <li><a href="?logout">Log Out <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+      </ul>
+    {% endif %}
+  </div>
+</nav>

@@ -1,0 +1,137 @@
+<h2>User List</h2>
+
+<div class="modal fade" id="usermodaldetails" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">View Details</h3>
+      </div>
+      <div class="modal-body">
+        <div id="userdetails-ajaxdestination">
+          <div style="text-align: center;">
+            <img src="{{ webPath }}/assets/pageassets/images/loading.gif" alt="Loading information..."></img>
+            <p style="font-size: 18px;">Loading details, please wait...</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="usermodaledit" role="dialog">
+  <form class="form-horizontal" method="post">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Edit User</h3>
+        </div>
+        <div class="modal-body">
+          <div id="useredit-ajaxdestination">
+            <div style="text-align: center;">
+              <img src="{{ webPath }}/assets/pageassets/images/loading.gif" alt="Loading information..."></img>
+              <p style="font-size: 18px;">Loading form, please wait...</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Update User</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<table id="userlist" class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <td>User Name</td>
+      <td>Full Name</td>
+      <td>Email</td>
+      <td>Last Login</td>
+      <td>Action</td>
+    </tr>
+  </thead>
+  <tbody>
+  {% for User in Users %}
+    {% if UserData.username == User.username %}
+    <tr style="font-weight: bold;">
+    {% else %}
+    <tr>
+    {% endif %}
+      <td>{{ User.username }}</td>
+      <td>{{ User.fullname }}</td>
+      <td>{{ User.email }}</td>
+      <td>
+        {% if User.last_login %}
+          {{ User.last_login|date("h:m:s A / d-m-Y") }}
+        {% else %}
+          Never
+        {% endif %}
+      </td>
+      <td>
+        <a class="action" href="#"><span title="Details" data-toggle="modal" data-target="#usermodaldetails" onclick="setUserDetails('{{ User.username }}');" class="glyphicon glyphicon-list-alt"> </span></a>
+        <a class="action" href="#"><span title="Edit" data-toggle="modal" data-target="#usermodaledit" onclick="setUserEditForm('{{ User.username }}');" class="glyphicon glyphicon-pencil"> </span></a>
+        {% if UserData.username != User.username %}
+        <a href="?delete={{ User.username }}" title="Delete"><span class="glyphicon glyphicon-remove deletebutton"></span></a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function() {
+    $("#userlist").DataTable({
+      paging: true,
+      lengthChange: false,
+      lengthMenu: [ 25 ],
+      searching: true,
+      info: true,
+      order: [[ 0, "desc" ]],
+      aoColumnDefs:
+        [
+          {
+             bSortable: false,
+             aTargets: [ 4 ]
+          }
+        ]
+    });
+  });
+
+  function setUserDetails(username) {
+    $.post("{{ webPath }}/assets/php/ajax/user.php",
+    {
+      type: "details",
+      username: username
+    },
+    function(data, status) {
+      if (status == "success") {
+        $("#userdetails-ajaxdestination").html(data);
+      } else {
+        alert(status);
+      }
+    });
+  }
+
+  function setUserEditForm(username) {
+    $.post("{{ webPath }}/assets/php/ajax/user.php",
+    {
+      type: "edit",
+      username: username
+    },
+    function(data, status) {
+      if (status == "success") {
+        $("#useredit-ajaxdestination").html(data);
+      } else {
+        alert(status);
+      }
+    });
+  }
+</script>

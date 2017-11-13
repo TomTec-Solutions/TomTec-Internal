@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="client_name_static">Client:</label>
+    <div class="col-sm-8">
+      <p class="form-control-static" id="client_name_static">{{ Invoice.ClientData.name }}</p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="technician">Technician:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="technician" maxlength="16" name="technician" placeholder="{{ Invoice.technician }}" value="{{ Invoice.technician }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="price">Total Price:</label>
+    <div class="col-sm-8">
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" placeholder="{{ Invoice.total_price }}" value="{{ Invoice.total_price }}">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="state">State:</label>
+    <div class="col-sm-8">
+      <select name="state" id="state" class="form-control">
+        <option value="{{ Invoice.state }}">Current ({{ Invoice.state }})</option>
+        <option value="Awaiting Payment">Awaiting Payment</option>
+        <option value="Overdue">Overdue</option>
+        <option value="Paid">Paid</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="issue_date">Issue Date:</label>
+    <div class="col-sm-8">
+      <input type="date" class="form-control" id="issue_date" name="issue_date" value="{{ Invoice.issue_date_datesafe }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="due_date">Due Date:</label>
+    <div class="col-sm-8">
+      <input type="date" class="form-control" id="due_date" name="due_date" value="{{ Invoice.due_date_datesafe }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-3" for="work_description">Description:</label>
+    <div class="col-sm-8">
+      <textarea class="form-control" id="work_description" rows="8" name="work_description" placeholder="{{ Invoice.work_description }}">{{ Invoice.work_description }}</textarea>
+    </div>
+  </div>
+</div>
+<input id="invoice_id" type="hidden" name="invoice_id" value="{{ Invoice.id }}">

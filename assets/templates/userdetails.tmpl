@@ -1,0 +1,32 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <td>User Name:</td>
+      <td><strong>{{ User.username }}</strong></td>
+    </tr>
+    <tr>
+      <td>Full Name:</td>
+      <td><strong>{{ User.fullname }}</strong></td>
+    </tr>
+    <tr>
+      <td>Permission:</td>
+      <td><strong>{{ User.permission|title }}</strong></td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td><strong>{{ User.email }}</strong></td>
+    </tr>
+    <tr>
+      <td>Last Login:</td>
+      <td>
+        <strong>
+        {% if User.last_login %}
+          {{ User.last_login|date("h:m:s A / d-m-Y") }}
+        {% else %}
+          Never
+        {% endif %}
+        </strong>
+      </td>
+    </tr>
+  </tbody>
+</table>

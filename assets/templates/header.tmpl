@@ -1,0 +1,31 @@
+<title>{{ siteName }}</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css">
+<link rel="stylesheet" href="{{ webPath }}/assets/pageassets/stylesheets/global.css">
+{% if stylesheet %}
+  <link rel="stylesheet" href="{{ webPath }}/assets/pageassets/stylesheets/{{ stylesheet }}">
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/1173155eb1.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
+<script src="{{ webPath }}/assets/pageassets/javascript/global.js"></script>
+{% if javascript %}
+  <script src="{{ webPath }}/assets/pageassets/javascript/{{ javascript }}"></script>
+{% endif %}
+<link rel="shortcut icon" href="{{ webPath }}/favicon.ico" type="image/x-icon">
+<link rel="icon" href="{{ webPath }}/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="{{ webPath }}/assets/pageassets/images/tomtecsolutions-appletouch.jpg">
+<script>
+  if (typeof window.history.pushState == "function") {
+    window.history.pushState({}, "Hide", "{{ webPath }}/{{ fileName }}");
+  }
+</script><!-- Removes get request trails from URL so the reload button can be used safely and doesn't resubmit get requests -->
+

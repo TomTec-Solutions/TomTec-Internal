@@ -1,0 +1,33 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <td>Client Name:</td>
+      <td><strong>{{ Client.name }}</strong></td>
+    </tr>
+    <tr>
+      <td>Contact Person:</td>
+      <td><strong>{{ Client.contact }}</strong></td>
+    </tr>
+    <tr>
+      <td>Address:</td>
+      <td><strong>{{ Client.address }}</strong></td>
+    </tr>
+    <tr>
+      <td>Primary Phone:</td>
+      <td><strong>{{ Client.phone_primary }}</strong></td>
+    </tr>
+    <tr>
+      <td>Secondary Phone:</td>
+      <td><strong>{{ Client.phone_secondary }}</strong></td>
+    </tr>
+    <tr>
+      <td>Email Address:</td>
+      <td><strong>{{ Client.email }}</strong></td>
+    </tr>
+    <tr>
+      <td>Notes:</td>
+      <td><strong>{{ Client.info_br|raw }}</strong></td>
+    </tr>
+  </tbody>
+</table>
+<p style="display: none;" id="client_name">{{ Client.name }}</p>
